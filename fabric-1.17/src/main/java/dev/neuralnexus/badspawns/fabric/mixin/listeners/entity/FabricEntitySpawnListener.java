@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(ServerWorld.class)
-abstract class FabricEntitySpawnListener {
+class FabricEntitySpawnListener {
     @Inject(method = "spawnEntity", at = @At("HEAD"))
     private void onEntitySpawn(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         if (!BadSpawns.isEnabled || entity == null) return;
