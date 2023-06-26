@@ -1,0 +1,7 @@
+name: BadSpawns
+version: '${version}'
+author: p0t4t0sandwich
+description: A server plugin to cancel the spawns of mobs you don't want
+main: dev.neuralnexus.badspawns.bukkit.BukkitBadSpawnsPlugin
+depend: []
+folia-supported: true
