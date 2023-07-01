@@ -22,5 +22,19 @@ class FabricEntitySpawnListener {
         if (BadSpawns.bannedMobs.contains(entityName)) {
             entity.remove(Entity.RemovalReason.KILLED);
         }
+
+        // Height dependent removal
+        int maxHeight = 90; // BadSpawns.config.getInt("maxHeight");
+        String[] heightDependentMobs = {"entity.varietyaquatic.lionfish", "entity.varietyaquatic.opah", "entity.varietyaquatic.yellowfin_tuna"};
+
+if (    entity.getY() > maxHeight) {
+            for (String mob : heightDependentMobs) {
+                if (entityName.equals(mob)) {
+                    entity.remove(Entity.RemovalReason.KILLED);
+                }
+            }
+        }
+
+
     }
 }

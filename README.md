@@ -10,3 +10,4 @@ A server plugin to cancel the spawns of mobs you don't want
 - [ ] Command to list the blacklisted mobs
 - [ ] Command to reload the config
 - [ ] Command to enable/disable the plugin
+- [ ] Config options for height-dependant cancels
