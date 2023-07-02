@@ -24,7 +24,7 @@ class FabricEntitySpawnListener {
         }
 
         // Height dependent removal
-        int maxHeight = 90; // BadSpawns.config.getInt("maxHeight");
+        int maxHeight = 63; // BadSpawns.config.getInt("maxHeight");
         String[] heightDependentMobs = {"entity.varietyaquatic.lionfish", "entity.varietyaquatic.opah", "entity.varietyaquatic.yellowfin_tuna"};
 
 if (    entity.getY() > maxHeight) {
