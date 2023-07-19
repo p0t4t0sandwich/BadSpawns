@@ -1,6 +1,7 @@
 package dev.neuralnexus.badspawns.fabric.mixin.listeners.entity;
 
 import dev.neuralnexus.badspawns.common.BadSpawns;
+import dev.neuralnexus.badspawns.fabric.events.entity.FabricEntityEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 class FabricEntitySpawnListener {
     @Inject(method = "spawnEntity", at = @At("HEAD"))
     private void onEntitySpawn(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        // Fire the entity spawn event
+        FabricEntityEvents.SPAWN.invoker().onEntitySpawn(entity);
+
         if (!BadSpawns.isEnabled || entity == null) return;
 
         // Get the entity name in the form of "entity.modid.entityname"
@@ -27,14 +31,12 @@ class FabricEntitySpawnListener {
         int maxHeight = 63; // BadSpawns.config.getInt("maxHeight");
         String[] heightDependentMobs = {"entity.varietyaquatic.lionfish", "entity.varietyaquatic.opah", "entity.varietyaquatic.yellowfin_tuna"};
 
-if (    entity.getY() > maxHeight) {
+        if (entity.getY() > maxHeight) {
             for (String mob : heightDependentMobs) {
                 if (entityName.equals(mob)) {
                     entity.remove(Entity.RemovalReason.KILLED);
                 }
             }
         }
-
-
     }
 }

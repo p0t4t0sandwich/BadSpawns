@@ -6,8 +6,12 @@ A server plugin to cancel the spawns of mobs you don't want
 
 - [ ] Bukkit implementation
 - [ ] Forge implementation
-- [ ] Command to add/remove mobs from the blacklist
-- [ ] Command to list the blacklisted mobs
-- [ ] Command to reload the config
-- [ ] Command to enable/disable the plugin
-- [ ] Config options for height-dependant cancels
+- [ ] Command to set up blacklists
+  - [ ] Add/remove mobs from blacklist
+  - [ ] Change location parameters via command
+- [ ] New config specification
+  - [ ] Two sets of xyz coords to draw a box, with world name
+    - [ ] add a `*` to the world name to blacklist all worlds
+    - [ ] add a `*` to a coord to blacklist to infinity in that direction
+  - [ ] List of mobs to blacklist
+    - [ ] include a `*` to blacklist all mobs from a given mod

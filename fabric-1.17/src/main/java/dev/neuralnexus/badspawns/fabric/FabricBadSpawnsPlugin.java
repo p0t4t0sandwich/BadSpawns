@@ -1,9 +1,8 @@
 package dev.neuralnexus.badspawns.fabric;
 
 import dev.neuralnexus.badspawns.common.BadSpawnsPlugin;
-import dev.neuralnexus.badspawns.fabric.events.server.FabricServerStartingEvent;
-import dev.neuralnexus.badspawns.fabric.events.server.FabricServerStoppedEvent;
 import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -39,7 +38,7 @@ public class FabricBadSpawnsPlugin implements DedicatedServerModInitializer, Bad
      */
     @Override
     public void registerHooks() {
-        FabricServerStartingEvent.EVENT.register(server -> {});
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {});
     }
 
     /**
@@ -60,6 +59,6 @@ public class FabricBadSpawnsPlugin implements DedicatedServerModInitializer, Bad
     @Override
     public void onInitializeServer() {
         pluginStart();
-        FabricServerStoppedEvent.EVENT.register(server -> pluginStop());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> pluginStop());
     }
 }

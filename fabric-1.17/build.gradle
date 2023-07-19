@@ -22,7 +22,7 @@ dependencies {
 
     // Fabric API
     Set<String> apiModules = [
-            'fabric-api-base'
+            'fabric-events-lifecycle-v0'
     ]
 
     apiModules.forEach {
