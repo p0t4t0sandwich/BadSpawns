@@ -1,24 +1,17 @@
 plugins {
-    id('com.github.johnrengelman.shadow') version('7.1.2')
+    id('com.github.johnrengelman.shadow') version('8.1.1')
 }
 
 dependencies {
-    // YAML
-    implementation('dev.dejvokep:boosted-yaml:1.3.1')
-
-    // Logging
-    compileOnly('org.slf4j:slf4j-api:2.0.5')
+    // TaterLib
+    compileOnly("dev.neuralnexus:TaterLib:1.20-${taterlib_version}")
 }
 
 shadowJar {
-    dependencies {
-        include(dependency("dev.dejvokep:boosted-yaml:1.3.1"))
-    }
-    relocate('dev.dejvokep', 'dev.neuralnexus.leafdecaynt.libs.dejvokep')
+    dependencies {}
 
-    destinationDir(file('../target'))
-    archiveName("BadSpawns-${version}-common.jar")
-    classifier('')
+    destinationDirectory = file('../target')
+    archiveFileName = "${project_name}-common-${version}.jar"
 }
 shadowJar.doLast {
     task ->

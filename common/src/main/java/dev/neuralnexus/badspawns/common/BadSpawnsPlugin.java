@@ -1,100 +1,48 @@
 package dev.neuralnexus.badspawns.common;
 
+import dev.neuralnexus.taterlib.common.TemplatePlugin;
+
 /**
- * The TaterAPI plugin interface.
+ * The BadSpawns plugin interface.
  */
-public interface BadSpawnsPlugin {
+public interface BadSpawnsPlugin extends TemplatePlugin {
     /**
-     * Gets the logger.
+     * Starts the plugin.
      */
-    Object pluginLogger();
+    default void pluginStart() {
+        try {
+            useLogger("BadSpawns is running on " + getServerType() + " " + getServerVersion() + "!");
 
-    /**
-     * Gets the config path.
-     */
-    String pluginConfigPath();
+            // Start
+            BadSpawns.start(pluginConfigPath(), pluginLogger());
 
-    /**
-     * Use whatever logger is being used.
-     * @param message The message to log
-     */
-    default void useLogger(String message) {
-        Object logger = pluginLogger();
+            // Register hooks
+            registerHooks();
 
-        if (logger instanceof java.util.logging.Logger) {
-            ((java.util.logging.Logger) logger).info(message);
-        } else if (logger instanceof org.slf4j.Logger) {
-            ((org.slf4j.Logger) logger).info(message);
-        } else {
-            System.out.println(message);
+            // Register event listeners
+            registerEventListeners();
+
+            // Register commands
+            registerCommands();
+
+            useLogger("BadSpawns has been enabled!");
+
+        } catch (Exception e) {
+            System.err.println(e);
+            e.printStackTrace();
         }
     }
 
     /**
-     * Gets the server type.
-     * @return The server type
-     */
-    default String getServerType() {
-        return "unknown";
-    }
-
-    /**
-     * Register hooks.
-     */
-    void registerHooks();
-
-
-    /**
-     * Registers event listeners.
-     */
-    void registerEventListeners();
-
-    /**
-     * Registers commands.
-     */
-    void registerCommands();
-
-    /**
-     * Starts the TaterAPI plugin.
-     */
-    default void pluginStart() {
-        Utils.runTaskAsync(() -> {
-            try {
-                useLogger("[BadSpawns] BadSpawns is running on " + getServerType() + "!");
-
-                // Start BadSpawns
-                BadSpawns.start(pluginConfigPath(), pluginLogger());
-
-                // Register hooks
-                registerHooks();
-
-                // Register event listeners
-                registerEventListeners();
-
-                // Register commands
-                registerCommands();
-
-                useLogger("[BadSpawns] BadSpawns has been enabled!");
-
-            } catch (Exception e) {
-                System.err.println(e);
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
-     * Stops the TaterAPI plugin.
+     * Stops the plugin.
      */
     default void pluginStop() {
-        Utils.runTaskAsync(() -> {
-            try {
-                BadSpawns.stop();
-                useLogger("[BadSpawns] BadSpawns has been disabled!");
-            } catch (Exception e) {
-                System.err.println(e);
-                e.printStackTrace();
-            }
-        });
+        try {
+            BadSpawns.stop();
+            useLogger("BadSpawns has been disabled!");
+        } catch (Exception e) {
+            System.err.println(e);
+            e.printStackTrace();
+        }
     }
 }

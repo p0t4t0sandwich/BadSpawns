@@ -8,9 +8,6 @@
   "client": [
   ],
   "server": [
-    "listeners.entity.FabricEntitySpawnListener",
-    "listeners.server.FabricServerStartingListener",
-    "listeners.server.FabricServerStoppedListener"
   ],
   "injectors": {
     "defaultRequire": 1

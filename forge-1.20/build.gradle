@@ -1,35 +1,35 @@
 plugins {
     id('com.github.johnrengelman.shadow') version('8.1.1')
+    id('net.minecraftforge.gradle') version('[6.0,6.2)')
+    id('org.parchmentmc.librarian.forgegradle') version('1.+')
+}
+
+targetCompatibility = java_version
+
+minecraft {
+    // https://parchmentmc.org/docs/getting-started
+    mappings(channel: mappings_channel, version: mappings_version)
 }
 
 dependencies {
     implementation(project(path: ':common', configuration: 'shadow'))
-
-    // Spigot
-    compileOnly("org.spigotmc:spigot-api:${minecraft_version}-${bukkit_version}")
+    minecraft("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
 
     // TaterLib
     compileOnly("dev.neuralnexus:TaterLib:1.20-${taterlib_version}")
 }
 
-java.disableAutoTargetJvm()
-
-processResources {
-    def props = [version: version]
-    inputs.properties(props)
-    filteringCharset('UTF-8')
-    filesMatching('plugin.yml') {
-        expand(props)
-    }
+reobf {
+    shadowJar {}
 }
 
 shadowJar {
     dependencies {
-        include(project(":common"))
+        include(project(':common'))
     }
 
     destinationDirectory = file('../target')
-    archiveFileName = "${project_name}-bukkit-${version}.jar"
+    archiveFileName = "${project_name}-forge-${minecraft_version}-${version}.jar"
 }
 shadowJar.doLast {
     task ->

@@ -1,6 +1,6 @@
 # BadSpawns
 
-A server plugin to cancel the spawns of mobs you don't want
+A cross-API server plugin to cancel the spawns of mobs using defined regions and conditions.
 
 ## TODO
 

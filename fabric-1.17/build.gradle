@@ -1,15 +1,8 @@
 import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
-    id('com.github.johnrengelman.shadow') version('7.1.2')
-    id('fabric-loom') version('1.1-SNAPSHOT')
-}
-
-archivesBaseName = 'Template'
-
-repositories {
-    maven { url 'https://maven.fabricmc.net/' }
-    mavenLocal()
+    id('com.github.johnrengelman.shadow') version('8.1.1')
+    id('fabric-loom') version('1.3-SNAPSHOT')
 }
 
 dependencies {
@@ -22,12 +15,16 @@ dependencies {
 
     // Fabric API
     Set<String> apiModules = [
-            'fabric-events-lifecycle-v0'
+            'fabric-command-api-v1',
+            'fabric-lifecycle-events-v1'
     ]
 
     apiModules.forEach {
         modImplementation(fabricApi.module(it, project.fabric_version))
     }
+
+    // TaterLib
+    modImplementation("dev.neuralnexus:TaterLib:${minecraft_version}-${taterlib_version}")
 }
 
 processResources {
@@ -49,10 +46,8 @@ shadowJar {
         include(project(":common"))
         exclude('/mappings/*')
     }
-    relocate('com.google.gson', 'ca.sperrer.p0t4t0sandwich.badspawns.lib.gson')
 
-    archiveName("BadSpawns-${version}-fabric-${minecraft_version}-dev.jar")
-    classifier('')
+    archiveFileName = "${project_name}-fabric-${minecraft_version}-${version}-dev.jar"
 }
 
 task remappedShadowJar(type: RemapJarTask) {
@@ -60,8 +55,8 @@ task remappedShadowJar(type: RemapJarTask) {
     input.set(tasks.shadowJar.archiveFile)
     addNestedDependencies.set(true)
 
-    destinationDir(file('../target'))
-    archiveFileName = "BadSpawns-${version}-fabric-${minecraft_version}.jar"
+    destinationDirectory = file('../target')
+    archiveFileName = "${project_name}-fabric-${minecraft_version}-${version}.jar"
 }
 remappedShadowJar.doLast {
     task ->

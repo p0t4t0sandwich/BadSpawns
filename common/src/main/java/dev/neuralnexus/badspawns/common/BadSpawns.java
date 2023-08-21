@@ -1,25 +1,25 @@
 package dev.neuralnexus.badspawns.common;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.neuralnexus.badspawns.common.listeners.entity.CommonEntityListener;
+import dev.neuralnexus.taterlib.common.abstractions.logger.AbstractLogger;
+import dev.neuralnexus.taterlib.common.event.entity.EntityEvents;
+import dev.neuralnexus.taterlib.lib.dejvokep.boostedyaml.YamlDocument;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The BadSpawns class.
+ */
 public class BadSpawns {
-    /**
-     * Properties of the BadSpawns class.
-     * instance: The singleton instance of the BadSpawns class
-     * config: The config file
-     * logger: The logger
-     * STARTED: Whether the BadSpawns has been started
-     */
     private static final BadSpawns instance = new BadSpawns();
     private static YamlDocument config;
-    private static Object logger;
     private static String configPath;
+    public static AbstractLogger logger;
     private static boolean STARTED = false;
+    private static final ArrayList<Object> hooks = new ArrayList<>();
     public static boolean isEnabled = false;
     public static ArrayList<String> bannedMobs = new ArrayList<>();
 
@@ -37,41 +37,43 @@ public class BadSpawns {
     }
 
     /**
-     * Use whatever logger is being used.
-     * @param message The message to log
+     * Add a hook to the hooks list
+     * @param hook The hook to add
      */
-    public static void useLogger(String message) {
-        if (logger instanceof java.util.logging.Logger) {
-            ((java.util.logging.Logger) logger).info(message);
-        } else if (logger instanceof org.slf4j.Logger) {
-            ((org.slf4j.Logger) logger).info(message);
-        } else {
-            System.out.println(message);
-        }
+    public static void addHook(Object hook) {
+        hooks.add(hook);
     }
 
     /**
-     * Start BadSpawns
+     * Use the Logger
+     * @param message The message to log
+     */
+    public static void useLogger(String message) {
+        logger.info(message);
+    }
+
+    /**
+     * Start
      * @param configPath The path to the config file
      * @param logger The logger
      */
-    public static void start(String configPath, Object logger) {
+    public static void start(String configPath, AbstractLogger logger) {
         BadSpawns.configPath = configPath;
         BadSpawns.logger = logger;
 
         // Config
         try {
-            config = YamlDocument.create(new File("." + File.separator + configPath + File.separator + "BadSpawns", "config.yml"),
-                    Objects.requireNonNull(BadSpawns.class.getClassLoader().getResourceAsStream("config.yml"))
+            config = YamlDocument.create(new File("." + File.separator + configPath + File.separator + "BadSpawns", "badspawns.config.yml"),
+                    Objects.requireNonNull(BadSpawns.class.getClassLoader().getResourceAsStream("badspawns.config.yml"))
             );
             config.reload();
         } catch (IOException | NullPointerException e) {
-            useLogger("Failed to load config.yml!\n" + e.getMessage());
+            useLogger("Failed to load badspawns.config.yml!\n" + e.getMessage());
             e.printStackTrace();
         }
 
         if (STARTED) {
-            useLogger("[BadSpawns] BadSpawns has already started!");
+            useLogger("BadSpawns has already started!");
             return;
         }
         STARTED = true;
@@ -82,26 +84,49 @@ public class BadSpawns {
             bannedMobs.add("entity." + mob.replace(":", "."));
         }
 
-        useLogger("[BadSpawns] BadSpawns has been started!");
+        // Register Entity Listeners
+        EntityEvents.SPAWN.register(CommonEntityListener::onEntitySpawn);
+
+        useLogger("BadSpawns has been started!");
     }
 
     /**
-     * Start BadSpawns
+     * Start
      */
     public static void start() {
         start(configPath, logger);
     }
 
     /**
-     * Stop BadSpawns
+     * Stop
      */
     public static void stop() {
         if (!STARTED) {
-            useLogger("[BadSpawns] BadSpawns has already stopped!");
+            useLogger("BadSpawns has already stopped!");
             return;
         }
         STARTED = false;
 
-        useLogger("[BadSpawns] BadSpawns has been stopped!");
+        bannedMobs.clear();
+
+        useLogger("BadSpawns has been stopped!");
+    }
+
+    /**
+     * Reload
+     */
+    public static void reload() {
+        if (!STARTED) {
+            useLogger("BadSpawns has not been started!");
+            return;
+        }
+
+        // Stop
+        stop();
+
+        // Start
+        start(configPath, logger);
+
+        useLogger("BadSpawns has been reloaded!");
     }
 }

@@ -3,7 +3,7 @@
   "id": "badspawns",
   "version": "${version}",
   "name": "BadSpawns",
-  "description": "A server plugin to cancel the spawns of mobs you don't want",
+  "description": "A cross-API server plugin to cancel the spawns of mobs using defined regions and conditions.",
   "authors": [
     {
       "name": "p0t4t0sandwich",
@@ -29,7 +29,9 @@
   ],
   "depends": {
     "fabricloader": ">=0.9.0",
-    "fabric-events-lifecycle-v0": "*",
-    "minecraft": ">=${minecraft_version}"
+    "minecraft": ">=${minecraft_version}",
+    "fabric-command-api-v1": "*",
+    "fabric-lifecycle-events-v1": "*",
+    "taterlib": "*"
   }
 }
