@@ -14,23 +14,13 @@ public interface CommonEntityListener {
     static void onEntitySpawn(Object[] args) {
         AbstractEntity entity = (AbstractEntity) args[0];
 
-        String entityName = entity.getType();
-
-        // Check if the entity should be removed
-        if (BadSpawns.bannedMobs.contains(entityName)) {
+        // Check banned mobs
+        if (BadSpawns.isMobBanned(entity)) {
             entity.remove();
         }
-
-        // Height dependent removal
-        int maxHeight = 63; // BadSpawns.config.getInt("maxHeight");
-        String[] heightDependentMobs = {"entity.varietyaquatic.lionfish", "entity.varietyaquatic.opah", "entity.varietyaquatic.yellowfin_tuna"};
-
-//        if (entity.getY() > maxHeight) {
-//            for (String mob : heightDependentMobs) {
-//                if (entityName.equals(mob)) {
-//                    entity.remove();
-//                }
-//            }
-//        }
+        // Check regions
+        else if (BadSpawns.checkRegions(entity)) {
+            entity.remove();
+        }
     }
 }

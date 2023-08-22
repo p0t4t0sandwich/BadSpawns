@@ -172,7 +172,8 @@ rm -rf ./common
 
 # --------------------------- Prepare Sponge --------------------------------
 
-SPONGE_VERSIONS=(8)
+#SPONGE_VERSIONS=(8)
+SPONGE_VERSIONS=()
 for SPONGE_VERSION in "${SPONGE_VERSIONS[@]}"
 do
     prepareFiles sponge$SPONGE_VERSION
@@ -180,7 +181,8 @@ done
 
 # --------------------------- Prepare Fabric --------------------------------
 
-FABRIC_VERSIONS=(1.15 1.16 1.17 1.20)
+#FABRIC_VERSIONS=(1.14 1.15 1.16 1.17 1.20)
+FABRIC_VERSIONS=(1.17 1.20)
 for FABRIC_VERSION in "${FABRIC_VERSIONS[@]}"
 do
     prepareFiles fabric-$FABRIC_VERSION
@@ -188,7 +190,8 @@ done
 
 # --------------------------- Prepare Forge --------------------------------
 
-FORGE_VERSIONS=(1.15.1 1.16.1 1.17.1 1.18 1.19 1.20)
+#FORGE_VERSIONS=(1.14.1 1.15.1 1.16.5 1.17.1 1.18 1.19 1.20)
+FORGE_VERSIONS=(1.19 1.20)
 for FORGE_VERSION in "${FORGE_VERSIONS[@]}"
 do
     prepareFiles forge-$FORGE_VERSION
@@ -202,34 +205,40 @@ do
     prepareFiles neoforge-$NEOFORGE_VERSION
 done
 
-# --------------------------- Build 1.15 --------------------------------
-MC_VERSION=1.15
-FABRIC_VERSION=1.15
-FORGE_VERSION=1.15.1
-OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
-build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
-
-# --------------------------- Build 1.16 --------------------------------
-MC_VERSION=1.16
-FABRIC_VERSION=1.16
-FORGE_VERSION=1.16.1
-SPONGE_VERSION=8
-OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
-spongebuild $FABRIC_VERSION $FORGE_VERSION $SPONGE_VERSION $OUT_FILE
-
-# --------------------------- Build 1.17 --------------------------------
-MC_VERSION=1.17
-FABRIC_VERSION=1.17
-FORGE_VERSION=1.17.1
-OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
-build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
-
-# --------------------------- Build 1.18 --------------------------------
-MC_VERSION=1.18
-FABRIC_VERSION=1.17
-FORGE_VERSION=1.18
-OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
-build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
+## --------------------------- Build 1.14 --------------------------------
+#MC_VERSION=1.14
+#FABRIC_VERSION=1.14
+#FORGE_VERSION=1.14.1
+#OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
+#
+## --------------------------- Build 1.15 --------------------------------
+#MC_VERSION=1.15
+#FABRIC_VERSION=1.15
+#FORGE_VERSION=1.15.1
+#OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
+#build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
+#
+## --------------------------- Build 1.16 --------------------------------
+#MC_VERSION=1.16
+#FABRIC_VERSION=1.16
+#FORGE_VERSION=1.16.1
+#SPONGE_VERSION=8
+#OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
+#spongebuild $FABRIC_VERSION $FORGE_VERSION $SPONGE_VERSION $OUT_FILE
+#
+## --------------------------- Build 1.17 --------------------------------
+#MC_VERSION=1.17
+#FABRIC_VERSION=1.17
+#FORGE_VERSION=1.17.1
+#OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
+#build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
+#
+## --------------------------- Build 1.18 --------------------------------
+#MC_VERSION=1.18
+#FABRIC_VERSION=1.17
+#FORGE_VERSION=1.18
+#OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
+#build $FABRIC_VERSION $FORGE_VERSION $OUT_FILE
 
 # --------------------------- Build 1.19 --------------------------------
 MC_VERSION=1.19

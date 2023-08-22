@@ -1,6 +1,6 @@
 # https://files.minecraftforge.net/net/minecraftforge/forge/
 modLoader = "javafml"
-loaderVersion = "[46,)"
+loaderVersion = "[41,)"
 license = "GPL-3"
 issueTrackerURL="https://github.com/p0t4t0sandwich/BadSpawns/issues"
 
@@ -22,7 +22,7 @@ A cross-API server plugin to cancel the spawns of mobs using defined regions and
 [[dependencies.badspawns]]
 modId = "forge"
 mandatory = true
-versionRange = "[46,)"
+versionRange = "[41,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -30,7 +30,7 @@ side = "BOTH"
 [[dependencies.badspawns]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,1.21)"
+versionRange = "[1.19,1.20)"
 ordering = "NONE"
 side = "BOTH"
 

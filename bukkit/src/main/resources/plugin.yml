@@ -1,7 +1,8 @@
 name: BadSpawns
 version: '${version}'
 author: p0t4t0sandwich
-description: A server plugin to cancel the spawns of mobs you don't want
+description: A cross-API server plugin to cancel the spawns of mobs using defined regions and conditions.
 main: dev.neuralnexus.badspawns.bukkit.BukkitBadSpawnsPlugin
-depend: []
+depend: [TaterLib]
+softdepend: [LuckPerms]
 folia-supported: true

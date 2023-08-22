@@ -1,13 +1,18 @@
 package dev.neuralnexus.badspawns.common;
 
+import dev.neuralnexus.badspawns.common.api.BadSpawnsAPIProvider;
 import dev.neuralnexus.badspawns.common.listeners.entity.CommonEntityListener;
+import dev.neuralnexus.badspawns.common.region.Region;
+import dev.neuralnexus.taterlib.common.abstractions.entity.AbstractEntity;
 import dev.neuralnexus.taterlib.common.abstractions.logger.AbstractLogger;
 import dev.neuralnexus.taterlib.common.event.entity.EntityEvents;
 import dev.neuralnexus.taterlib.lib.dejvokep.boostedyaml.YamlDocument;
+import dev.neuralnexus.taterlib.lib.dejvokep.boostedyaml.block.implementation.Section;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -22,6 +27,7 @@ public class BadSpawns {
     private static final ArrayList<Object> hooks = new ArrayList<>();
     public static boolean isEnabled = false;
     public static ArrayList<String> bannedMobs = new ArrayList<>();
+    public static HashMap<String, Region> regions = new HashMap<>();
 
     /**
      * Constructor for the BadSpawns class.
@@ -80,14 +86,44 @@ public class BadSpawns {
 
         isEnabled = config.getBoolean("enabled");
 
+        // Build banned mobs list
+        useLogger("Building banned mobs list...");
+
         for (String mob : config.getStringList("bannedMobs")) {
             bannedMobs.add("entity." + mob.replace(":", "."));
+        }
+
+        // Build regions list
+        useLogger("Building regions list...");
+        for (Object region : config.getList("regions")) {
+            Section section = (Section) region;
+            String name = section.getString("name");
+            try {
+                // Build region
+                regions.put(name, Region.build(
+                        name,
+                        section.getString("type"),
+                        section.getString("minX"),
+                        section.getString("maxX"),
+                        section.getString("minY"),
+                        section.getString("maxY"),
+                        section.getString("minZ"),
+                        section.getString("maxZ"),
+                        section.getStringList("worlds"),
+                        section.getStringList("biomes"),
+                        section.getStringList("mobs")
+                ));
+            } catch (Exception e) {
+                useLogger("Failed to build region " + name + "!\n" + e.getMessage());
+                e.printStackTrace();
+            }
         }
 
         // Register Entity Listeners
         EntityEvents.SPAWN.register(CommonEntityListener::onEntitySpawn);
 
         useLogger("BadSpawns has been started!");
+        BadSpawnsAPIProvider.register(instance);
     }
 
     /**
@@ -107,9 +143,12 @@ public class BadSpawns {
         }
         STARTED = false;
 
+        // Remove references to objects
         bannedMobs.clear();
+        regions.clear();
 
         useLogger("BadSpawns has been stopped!");
+        BadSpawnsAPIProvider.unregister();
     }
 
     /**
@@ -128,5 +167,28 @@ public class BadSpawns {
         start(configPath, logger);
 
         useLogger("BadSpawns has been reloaded!");
+    }
+
+    /**
+     * Get whether an entity is banned
+     * @param entity The entity to check
+     * @return Whether the entity is banned
+     */
+    public static boolean isMobBanned(AbstractEntity entity) {
+        return bannedMobs.contains(entity.getType());
+    }
+
+    /**
+     * Get whether an entity is banned within a region
+     * @param entity The entity to check
+     * @return Whether the entity is banned
+     */
+    public static boolean checkRegions(AbstractEntity entity) {
+        for (Region region : regions.values()) {
+            if (region.calculate(entity)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

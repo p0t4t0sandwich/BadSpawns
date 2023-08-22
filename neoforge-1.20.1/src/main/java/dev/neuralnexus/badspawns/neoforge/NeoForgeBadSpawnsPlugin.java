@@ -1,4 +1,4 @@
-package dev.neuralnexus.badspawns.forge;
+package dev.neuralnexus.badspawns.neoforge;
 
 import com.mojang.logging.LogUtils;
 import dev.neuralnexus.badspawns.common.BadSpawnsPlugin;
@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * The BadSpawns Forge plugin.
  */
-@Mod(ForgeBadSpawnsPlugin.MOD_ID)
-public class ForgeBadSpawnsPlugin extends TemplateForgePlugin implements BadSpawnsPlugin {
+@Mod(NeoForgeBadSpawnsPlugin.MOD_ID)
+public class NeoForgeBadSpawnsPlugin extends TemplateForgePlugin implements BadSpawnsPlugin {
     public static final String MOD_ID = "badspawns";
 
     /**
@@ -34,7 +34,7 @@ public class ForgeBadSpawnsPlugin extends TemplateForgePlugin implements BadSpaw
     /**
      * Called when the Forge mod is initializing.
      */
-    public ForgeBadSpawnsPlugin() {
+    public NeoForgeBadSpawnsPlugin() {
         // Register server starting/stopping events
         MinecraftForge.EVENT_BUS.register(this);
         pluginStart();
