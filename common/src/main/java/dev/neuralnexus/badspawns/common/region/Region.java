@@ -122,18 +122,36 @@ public class Region {
      * @return Whether the entity is within the region
      */
     public boolean isWithinRegion(AbstractEntity entity) {
+        //
+//        System.out.println("---------------------------------------------");
+//        System.out.println("Region: " + name);
+//        System.out.println("Entity: " + entity.getType());
+//        System.out.println("Mobs: " + mobs);
+//        System.out.println("Contains: " + mobs.contains(entity.getType()));
+//        System.out.println("All: " + mobs.contains("all"));
+        //
+
         // Check mobs
         if (!mobs.contains(entity.getType()) && !mobs.contains("all")) {
+            //
+//            System.out.println("Not in mob list: " + entity.getType());
+            //
             return false;
         }
 
         // Check dimensions
         if (!worlds.contains(entity.getDimension()) && !worlds.contains("all")) {
+            //
+//            System.out.println("Not in dimension list: " + entity.getDimension());
+            //
             return false;
         }
 
         // Check biomes
         if (!biomes.contains(entity.getBiome()) && !biomes.contains("all")) {
+            //
+//            System.out.println("Not in biome list: " + entity.getBiome());
+            //
             return false;
         }
 
@@ -148,6 +166,10 @@ public class Region {
             return false;
         }
 
+        //
+//        System.out.println("In region, all parameters true");
+        //
+
         return true;
     }
 
@@ -158,6 +180,17 @@ public class Region {
      */
     public boolean calculate(AbstractEntity entity) {
         // Nifty simplification to invert the result if the region is a whitelist
-        return isWithinRegion(entity) == isWhitelist;
+//        return isWithinRegion(entity) != isWhitelist;
+
+        boolean result = isWithinRegion(entity);
+
+        //
+//        System.out.println("Result: " + result);
+//        System.out.println("Is Whitelist: " + isWhitelist);
+//        System.out.println("Final: " + (result != isWhitelist));
+//        System.out.println("---------------------------------------------");
+        //
+
+        return result != isWhitelist;
     }
 }

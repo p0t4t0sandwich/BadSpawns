@@ -190,7 +190,7 @@ done
 
 # --------------------------- Prepare Forge --------------------------------
 
-#FORGE_VERSIONS=(1.14.1 1.15.1 1.16.5 1.17.1 1.18 1.19 1.20)
+#FORGE_VERSIONS=(1.14.1 1.15.1 1.16.3 1.17.1 1.18 1.19 1.20)
 FORGE_VERSIONS=(1.19 1.20)
 for FORGE_VERSION in "${FORGE_VERSIONS[@]}"
 do
@@ -221,7 +221,7 @@ done
 ## --------------------------- Build 1.16 --------------------------------
 #MC_VERSION=1.16
 #FABRIC_VERSION=1.16
-#FORGE_VERSION=1.16.1
+#FORGE_VERSION=1.16.3
 #SPONGE_VERSION=8
 #OUT_FILE=$PROJ_NAME-$MC_VERSION-$VERSION
 #spongebuild $FABRIC_VERSION $FORGE_VERSION $SPONGE_VERSION $OUT_FILE

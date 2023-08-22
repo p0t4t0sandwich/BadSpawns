@@ -108,5 +108,6 @@ regions:
   - Add/remove regions
   - Change location parameters via command
 - include a `*` to blacklist all mobs from a given mod
+- Ability to enable/disable regions
 
 ## Release Notes

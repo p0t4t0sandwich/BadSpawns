@@ -7,13 +7,10 @@ import dev.neuralnexus.taterlib.common.abstractions.entity.AbstractEntity;
 import dev.neuralnexus.taterlib.common.abstractions.logger.AbstractLogger;
 import dev.neuralnexus.taterlib.common.event.entity.EntityEvents;
 import dev.neuralnexus.taterlib.lib.dejvokep.boostedyaml.YamlDocument;
-import dev.neuralnexus.taterlib.lib.dejvokep.boostedyaml.block.implementation.Section;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The BadSpawns class.
@@ -95,23 +92,22 @@ public class BadSpawns {
 
         // Build regions list
         useLogger("Building regions list...");
-        for (Object region : config.getList("regions")) {
-            Section section = (Section) region;
-            String name = section.getString("name");
+        for (Map<?, ?> region : config.getMapList("regions")) {
+            String name = (String) region.get("name");
             try {
                 // Build region
                 regions.put(name, Region.build(
                         name,
-                        section.getString("type"),
-                        section.getString("minX"),
-                        section.getString("maxX"),
-                        section.getString("minY"),
-                        section.getString("maxY"),
-                        section.getString("minZ"),
-                        section.getString("maxZ"),
-                        section.getStringList("worlds"),
-                        section.getStringList("biomes"),
-                        section.getStringList("mobs")
+                        (String) region.get("type"),
+                        (String) region.get("minX"),
+                        (String) region.get("maxX"),
+                        (String) region.get("minY"),
+                        (String) region.get("maxY"),
+                        (String) region.get("minZ"),
+                        (String) region.get("maxZ"),
+                        (List<String>) region.get("worlds"),
+                        (List<String>) region.get("biomes"),
+                        (List<String>) region.get("mobs")
                 ));
             } catch (Exception e) {
                 useLogger("Failed to build region " + name + "!\n" + e.getMessage());
