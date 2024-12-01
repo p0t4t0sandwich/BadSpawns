@@ -16,7 +16,7 @@ sponge {
     }
     plugin(project_id) {
         displayName(project_name)
-        entrypoint("dev.neuralnexus.taterlib.sponge.SpongeBadSpawnsPlugin")
+        entrypoint("dev.neuralnexus.badspawns.sponge.SpongeBadSpawnsPlugin")
         description("A cross-API server plugin to cancel the spawns of mobs using defined regions and conditions.")
         links {
              homepage("https://github.com/p0t4t0sandwich/BadSpawns")

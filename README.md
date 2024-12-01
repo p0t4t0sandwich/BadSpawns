@@ -58,7 +58,7 @@ BadSpawns supports: Bukkit, Fabric, and Forge
 
 ## Configuration
 
-`<plugins/config>/BeeNameGenerator/beenamegenerator.config.yml`
+`<plugins/config>/BadSpawns/badspawns.config.yml`
 
 ```yaml
 ---
